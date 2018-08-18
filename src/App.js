@@ -30,7 +30,8 @@ class App extends Component {
     convertSvgToImage = (arr) => {
         let canv = this.refs.canvas;
 
-        if (canv) {
+        if (canv && !this.canvLoaded) {
+            this.canvLoaded = true;
             canv.getContext("2d");
             arr.forEach((d, i) => {
                 let htmlString = ReactDOMServer.renderToStaticMarkup(
@@ -38,19 +39,21 @@ class App extends Component {
                 );
                 canvg(canv, htmlString);
                 d.icon = canv.toDataURL("image/png");
-            })
+            });
+            this.setState({});
+        }
+
+        if (!canv) {
+            setTimeout(() => {
+                this.convertSvgToImage(arr);
+            }, 1);
         }
 
     }
 
     render() {
 
-        if (!this.canvLoaded) {
-            console.log('a');
-            this.canvLoaded = true;
-
-            this.convertSvgToImage(this.iconsToConvert);
-        }
+        this.convertSvgToImage(this.iconsToConvert);
 
         return (
             <div style={{ height: '100vh', width: '100vw', paddingTop: 20, backgroundColor: 'gray' }}>
@@ -74,7 +77,7 @@ class App extends Component {
                         overflowY: 'hidden'
                     }}>Hi!
                     {this.canvLoaded && this.iconsToConvert.map((iconObject, index) => {
-                            return <img src={iconObject.icon} key={'img-' + index} alt={iconObject.alt} styles={{ height: 25, width: 25 }} />
+                            return <img src={iconObject.icon} key={'img-' + index} alt={iconObject.alt} style={{ height: 25, width: 25 }} />
                         })}
                     </div>
                 </PDFExport>
