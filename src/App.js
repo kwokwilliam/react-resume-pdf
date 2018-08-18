@@ -27,9 +27,7 @@ class App extends Component {
         this.resume.save();
     }
 
-    convertSvgToImage = (arr) => {
-        let canv = this.refs.canvas;
-
+    convertSvgToImage = (canv, arr) => {
         if (canv && !this.canvLoaded) {
             this.canvLoaded = true;
             canv.getContext("2d");
@@ -48,12 +46,11 @@ class App extends Component {
                 this.convertSvgToImage(arr);
             }, 1);
         }
-
     }
 
     render() {
-
-        this.convertSvgToImage(this.iconsToConvert);
+        let canv = this.refs.canvas;
+        this.convertSvgToImage(canv, this.iconsToConvert);
 
         return (
             <div style={{ height: '100vh', width: '100vw', paddingTop: 20, backgroundColor: 'gray' }}>
