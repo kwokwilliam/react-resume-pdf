@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.2",
+    "@fortawesome/free-brands-svg-icons": "^5.2.0",
+    "@fortawesome/react-fontawesome": "^0.1.2",
     "@progress/kendo-drawing": "^1.5.7",
     "@progress/kendo-react-pdf": "^1.2.0",
+    "canvg": "^1.5.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-scripts": "1.1.4"
