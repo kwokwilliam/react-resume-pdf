@@ -27,8 +27,9 @@ class App extends Component {
         this.resume.save();
     }
 
-    convertSvgToImage = (canv, arr) => {
-        if (canv && !this.canvLoaded) {
+    convertSvgToImage = (arr) => {
+        let canv = this.refs.canvas;
+        if (!this.canvLoaded) {
             this.canvLoaded = true;
             canv.getContext("2d");
             arr.forEach((d, i) => {
@@ -40,22 +41,17 @@ class App extends Component {
             });
             this.setState({});
         }
+    }
 
-        if (!canv) {
-            setTimeout(() => {
-                this.convertSvgToImage(arr);
-            }, 1);
-        }
+    componentDidMount() {
+        this.convertSvgToImage(this.iconsToConvert);
     }
 
     render() {
-        let canv = this.refs.canvas;
-        this.convertSvgToImage(canv, this.iconsToConvert);
-
         return (
             <div style={{ height: '100vh', width: '100vw', paddingTop: 20, backgroundColor: 'gray' }}>
-                <canvas ref="canvas" style={{ display: 'none' }}>
-                </canvas>
+                {!this.canvLoaded && <canvas ref="canvas" style={{ display: 'none' }}>
+                </canvas>}
                 <div style={{ textAlign: 'center', marginBottom: 10 }}><button onClick={this.exportPDF} style={{ margin: 'auto' }}>download</button></div>
                 <PDFExport paperSize={'Letter'}
                     fileName="_____.pdf"
